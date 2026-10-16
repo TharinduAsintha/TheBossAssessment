@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="WDIO Native Demo App Suite" verbose="1">
+    <parameter name="platform" value="android"/>
+
+    <test name="Sign up">
+        <classes>
+            <class name="com.theboss.tests.SignupTests"/>
+        </classes>
+    </test>
+
+    <test name="Login">
+        <classes>
+            <class name="com.theboss.tests.LoginTests"/>
+        </classes>
+    </test>
+
+    <test name="Forms">
+        <classes>
+            <class name="com.theboss.tests.FormsTests"/>
+        </classes>
+    </test>
+</suite>
