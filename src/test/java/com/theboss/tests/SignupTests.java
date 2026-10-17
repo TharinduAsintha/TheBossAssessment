@@ -15,6 +15,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class SignupTests extends BaseTest {
 
+    /**
+     * Navigates to the Login tab and switches to its SIGN UP sub-tab.
+     *
+     * @return the {@link LoginScreen} with the SIGN UP sub-tab active
+     */
     private LoginScreen openSignup() {
         return new NavBar(driver).openLogin().selectSignupTab();
     }

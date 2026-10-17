@@ -17,19 +17,33 @@ public class AlertDialog extends BasePage {
         super(driver);
     }
 
+    /**
+     * Blocks until the alert dialog is visible on screen.
+     *
+     * @return this {@link AlertDialog} for fluent chaining
+     */
     public AlertDialog waitUntilShown() {
         waitForVisible(TITLE);
         return this;
     }
 
+    /**
+     * @return the alert's title text
+     */
     public String title() {
         return textOf(TITLE);
     }
 
+    /**
+     * @return the alert's body message text
+     */
     public String message() {
         return textOf(MESSAGE);
     }
 
+    /**
+     * Dismisses the alert by tapping its OK button.
+     */
     public void dismiss() {
         tap(OK_BUTTON);
     }

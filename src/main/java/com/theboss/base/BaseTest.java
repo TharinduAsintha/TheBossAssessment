@@ -14,6 +14,11 @@ public abstract class BaseTest {
 
     protected AppiumDriver driver;
 
+    /**
+     * Sets up the WebDriver before each test method.
+     * Resolves the target platform from the system property or TestNG parameter,
+     * creates the driver, and configures the implicit wait if enabled.
+     */
     @BeforeMethod(alwaysRun = true)
     @Parameters("platform")
     public void setUp(@Optional("android") String platform) {
@@ -25,6 +30,9 @@ public abstract class BaseTest {
         }
     }
 
+   /**
+    * Quits the WebDriver after each test method and clears the driver reference.
+    */
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
         if (driver != null) {

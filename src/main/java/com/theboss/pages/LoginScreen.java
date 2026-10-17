@@ -35,56 +35,108 @@ public class LoginScreen extends BasePage {
         super(driver);
     }
 
+    /**
+     * Blocks until the Login screen's sub-tabs are visible.
+     *
+     * @return this {@link LoginScreen} for fluent chaining
+     */
     public LoginScreen waitUntilReady() {
         waitForVisible(LOGIN_SUBTAB);
         return this;
     }
 
+    /**
+     * Switches to the LOGIN sub-tab and waits for the login button to render.
+     *
+     * @return this {@link LoginScreen} for fluent chaining
+     */
     public LoginScreen selectLoginTab() {
         tap(LOGIN_SUBTAB);
         waitForVisible(LOGIN_BUTTON);
         return this;
     }
 
+    /**
+     * Switches to the SIGN UP sub-tab and waits for the signup button to render.
+     *
+     * @return this {@link LoginScreen} for fluent chaining
+     */
     public LoginScreen selectSignupTab() {
         tap(SIGNUP_SUBTAB);
         waitForVisible(SIGNUP_BUTTON);
         return this;
     }
 
+    /**
+     * Types the given value into the email field.
+     *
+     * @param email the email address to enter
+     * @return this {@link LoginScreen} for fluent chaining
+     */
     public LoginScreen enterEmail(String email) {
         type(EMAIL_INPUT, email);
         return this;
     }
 
+    /**
+     * Types the given value into the password field.
+     *
+     * @param password the password to enter
+     * @return this {@link LoginScreen} for fluent chaining
+     */
     public LoginScreen enterPassword(String password) {
         type(PASSWORD_INPUT, password);
         return this;
     }
 
+    /**
+     * Types the given value into the "repeat password" field used on the signup sub-tab.
+     *
+     * @param password the password to repeat
+     * @return this {@link LoginScreen} for fluent chaining
+     */
     public LoginScreen enterRepeatPassword(String password) {
         type(REPEAT_PASSWORD_INPUT, password);
         return this;
     }
 
+    /**
+     * Submits the login form by tapping the LOGIN button.
+     *
+     * @return this {@link LoginScreen} for fluent chaining
+     */
     public LoginScreen submitLogin() {
         tap(LOGIN_BUTTON);
         return this;
     }
 
+    /**
+     * Submits the signup form by tapping the SIGN UP button.
+     *
+     * @return this {@link LoginScreen} for fluent chaining
+     */
     public LoginScreen submitSignup() {
         tap(SIGNUP_BUTTON);
         return this;
     }
 
+    /**
+     * @return {@code true} if the "please enter a valid email address" message is shown
+     */
     public boolean invalidEmailMessageShown() {
         return isDisplayed(INVALID_EMAIL_MSG);
     }
 
+    /**
+     * @return {@code true} if the "please enter at least 8 characters" message is shown
+     */
     public boolean shortPasswordMessageShown() {
         return isDisplayed(SHORT_PASSWORD_MSG);
     }
 
+    /**
+     * @return {@code true} if the "please enter the same password" message is shown
+     */
     public boolean passwordMismatchMessageShown() {
         return isDisplayed(PASSWORD_MISMATCH_MSG);
     }

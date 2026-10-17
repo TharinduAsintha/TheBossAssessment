@@ -10,6 +10,11 @@ import static org.testng.Assert.assertEquals;
 
 public class FormsTests extends BaseTest {
 
+    /**
+     * Navigates to the Forms tab from the bottom nav bar.
+     *
+     * @return the active {@link FormsScreen}
+     */
     private FormsScreen openForms() {
         return new NavBar(driver).openForms();
     }

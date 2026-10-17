@@ -12,6 +12,11 @@ import static org.testng.Assert.assertTrue;
 
 public class LoginTests extends BaseTest {
 
+    /**
+     * Navigates to the Login tab and switches to its LOGIN sub-tab.
+     *
+     * @return the {@link LoginScreen} with the LOGIN sub-tab active
+     */
     private LoginScreen openLogin() {
         return new NavBar(driver).openLogin().selectLoginTab();
     }

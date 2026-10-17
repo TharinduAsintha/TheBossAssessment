@@ -21,29 +21,56 @@ public class FormsScreen extends BasePage {
         super(driver);
     }
 
+    /**
+     * Blocks until the Forms screen is fully rendered.
+     *
+     * @return this {@link FormsScreen} for fluent chaining
+     */
     public FormsScreen waitUntilReady() {
         waitForVisible(TEXT_INPUT);
         return this;
     }
 
+    /**
+     * Types the given text into the text input field.
+     *
+     * @param text the text to enter
+     * @return this {@link FormsScreen} for fluent chaining
+     */
     public FormsScreen typeIntoTextInput(String text) {
         type(TEXT_INPUT, text);
         return this;
     }
 
+    /**
+     * @return the text currently rendered in the echo label below the input
+     */
     public String echoedText() {
         return textOf(TEXT_RESULT);
     }
 
+    /**
+     * @return the descriptive label next to the switch (reflects its on/off state)
+     */
     public String switchLabel() {
         return textOf(SWITCH_LABEL);
     }
 
+    /**
+     * Taps the switch to flip its state.
+     *
+     * @return this {@link FormsScreen} for fluent chaining
+     */
     public FormsScreen toggleSwitch() {
         tap(SWITCH);
         return this;
     }
 
+    /**
+     * Taps the "Active" button, which triggers the native alert.
+     *
+     * @return this {@link FormsScreen} for fluent chaining
+     */
     public FormsScreen tapActiveButton() {
         tap(ACTIVE_BUTTON);
         return this;

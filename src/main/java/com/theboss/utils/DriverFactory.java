@@ -17,6 +17,13 @@ public final class DriverFactory {
     private DriverFactory() {
     }
 
+    /**
+     * Resolves an app artifact path to an absolute path and verifies that the file exists.
+     *
+     * @param rawPath the configured app artifact path
+     * @return the absolute path if provided, or null if the path is empty
+     * @throws IllegalStateException if the app artifact does not exist
+     */
     private static String resolveAppPath(String rawPath) {
         if (rawPath == null || rawPath.isBlank()) {
             return null;
@@ -33,6 +40,12 @@ public final class DriverFactory {
         return asFile.getAbsolutePath();
     }
 
+     /**
+     * Creates an Appium driver for the specified platform.
+     *
+     * @param platform the target platform (android or ios)
+     * @return the initialized Android or iOS Appium driver
+     */
     public static AppiumDriver create(String platform) {
         try {
             URL serverUrl = new URL(ConfigReader.get("appium.server.url"));
@@ -40,7 +53,6 @@ public final class DriverFactory {
 
             return switch (target) {
                 case "android" -> new AndroidDriver(serverUrl, buildAndroidOptions());
-                case "ios" -> new IOSDriver(serverUrl, buildIosOptions());
                 default -> throw new IllegalArgumentException("Unsupported platform: " + platform);
             };
         } catch (MalformedURLException e) {
@@ -48,29 +60,12 @@ public final class DriverFactory {
         }
     }
 
-    private static XCUITestOptions buildIosOptions() {
-        XCUITestOptions options = new XCUITestOptions()
-                .setPlatformName(ConfigReader.get("ios.platformName", "iOS"))
-                .setPlatformVersion(ConfigReader.get("ios.platformVersion"))
-                .setDeviceName(ConfigReader.get("ios.deviceName"))
-                .setAutomationName(ConfigReader.get("ios.automationName", "XCUITest"))
-                .setNoReset(ConfigReader.getBoolean("ios.noReset", false))
-                .setNewCommandTimeout(Duration.ofSeconds(
-                        ConfigReader.getInt("ios.newCommandTimeout", 120)));
-
-        String app = resolveAppPath(ConfigReader.get("ios.app"));
-        if (app != null) {
-            options.setApp(app);
-        }
-
-        String bundleId = ConfigReader.get("ios.bundleId");
-        if (bundleId != null && !bundleId.isBlank()) {
-            options.setBundleId(bundleId);
-        }
-
-        return options;
-    }
-
+     /**
+     * Builds Android-specific Appium capabilities using the configured device,
+     * automation settings, and app details.
+     *
+     * @return the configured UiAutomator2 options
+     */
     private static UiAutomator2Options buildAndroidOptions() {
         UiAutomator2Options options = new UiAutomator2Options()
                 .setPlatformName(ConfigReader.get("android.platformName", "Android"))

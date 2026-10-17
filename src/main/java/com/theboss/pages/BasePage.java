@@ -22,34 +22,78 @@ public abstract class BasePage {
                 Duration.ofSeconds(ConfigReader.getInt("explicit.wait.seconds", 20)));
     }
 
+    /**
+     * Waits for the element at {@code locator} to be visible and returns it.
+     *
+     * @param locator the element locator
+     * @return the visible {@link WebElement}
+     */
     protected WebElement waitForVisible(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
+    /**
+     * Waits for the element at {@code locator} to be clickable and returns it.
+     *
+     * @param locator the element locator
+     * @return the clickable {@link WebElement}
+     */
     protected WebElement waitForClickable(By locator) {
         return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
+    /**
+     * Waits for the element to be clickable, then taps it.
+     *
+     * @param locator the element locator
+     */
     protected void tap(By locator) {
         waitForClickable(locator).click();
     }
 
+    /**
+     * Clears the input at {@code locator} and types {@code text} into it.
+     *
+     * @param locator the input element locator
+     * @param text    the text to enter
+     */
     protected void type(By locator, String text) {
         WebElement element = waitForVisible(locator);
         element.clear();
         element.sendKeys(text);
     }
 
+    /**
+     * Checks whether at least one element matching {@code locator} is present
+     * and visible. Does not wait; returns {@code false} immediately if nothing
+     * matches.
+     *
+     * @param locator the element locator
+     * @return {@code true} if a matching element is currently displayed
+     */
     protected boolean isDisplayed(By locator) {
         List<WebElement> matches = driver.findElements(locator);
         return !matches.isEmpty() && matches.get(0).isDisplayed();
     }
 
+    /**
+     * Waits for the element at {@code locator} to be visible and returns its
+     * displayed text.
+     *
+     * @param locator the element locator
+     * @return the visible text of the element
+     */
     protected String textOf(By locator) {
         return waitForVisible(locator).getText();
     }
 
 
+    /**
+     * Shortcut for building an accessibility-id locator.
+     *
+     * @param id the accessibility id exposed by the app
+     * @return a {@link By} matching the given accessibility id
+     */
     protected static By accessibility(String id) {
         return AppiumBy.accessibilityId(id);
     }
