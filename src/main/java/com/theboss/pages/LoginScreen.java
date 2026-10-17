@@ -3,6 +3,8 @@ package com.theboss.pages;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 
+import java.time.Duration;
+
 /**
  * The "Login" bottom tab. The screen hosts two sub-tabs (LOGIN and SIGN UP)
  * backed by the same input fields; which action the button performs depends on
@@ -30,6 +32,8 @@ public class LoginScreen extends BasePage {
             androidText("Please enter at least 8 characters");
     private static final By PASSWORD_MISMATCH_MSG =
             androidText("Please enter the same password");
+
+    private static final Duration VALIDATION_MSG_TIMEOUT = Duration.ofSeconds(5);
 
     public LoginScreen(AppiumDriver driver) {
         super(driver);
@@ -124,20 +128,20 @@ public class LoginScreen extends BasePage {
      * @return {@code true} if the "please enter a valid email address" message is shown
      */
     public boolean invalidEmailMessageShown() {
-        return isDisplayed(INVALID_EMAIL_MSG);
+        return isDisplayedWithin(INVALID_EMAIL_MSG, VALIDATION_MSG_TIMEOUT);
     }
 
     /**
      * @return {@code true} if the "please enter at least 8 characters" message is shown
      */
     public boolean shortPasswordMessageShown() {
-        return isDisplayed(SHORT_PASSWORD_MSG);
+        return isDisplayedWithin(SHORT_PASSWORD_MSG, VALIDATION_MSG_TIMEOUT);
     }
 
     /**
      * @return {@code true} if the "please enter the same password" message is shown
      */
     public boolean passwordMismatchMessageShown() {
-        return isDisplayed(PASSWORD_MISMATCH_MSG);
+        return isDisplayedWithin(PASSWORD_MISMATCH_MSG, VALIDATION_MSG_TIMEOUT);
     }
 }

@@ -4,6 +4,7 @@ import com.theboss.utils.ConfigReader;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -74,6 +75,26 @@ public abstract class BasePage {
     protected boolean isDisplayed(By locator) {
         List<WebElement> matches = driver.findElements(locator);
         return !matches.isEmpty() && matches.get(0).isDisplayed();
+    }
+
+    /**
+     * Waits up to {@code timeout} for {@code locator} to become visible. Returns
+     * {@code true} on success, {@code false} if the wait times out. Use for
+     * assertions on elements that render after an async event (validation
+     * messages, snackbars) where {@link #isDisplayed(By)} would race the UI.
+     *
+     * @param locator the element locator
+     * @param timeout how long to wait before giving up
+     * @return {@code true} if the element became visible within {@code timeout}
+     */
+    protected boolean isDisplayedWithin(By locator, Duration timeout) {
+        try {
+            new WebDriverWait(driver, timeout)
+                    .until(ExpectedConditions.visibilityOfElementLocated(locator));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
     /**
