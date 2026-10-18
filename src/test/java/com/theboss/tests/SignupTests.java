@@ -1,6 +1,7 @@
 package com.theboss.tests;
 
 import com.theboss.base.BaseTest;
+import com.theboss.listeners.ExtentTestListener;
 import com.theboss.pages.AlertDialog;
 import com.theboss.pages.LoginScreen;
 import com.theboss.pages.NavBar;
@@ -37,7 +38,9 @@ public class SignupTests extends BaseTest {
         TestContext.setSignupEmail(uniqueEmail);
 
         logger.info("Generated a unique email for signup");
+        ExtentTestListener.getTest().info("Generated unique signup email: '" + uniqueEmail + "'");
 
+        ExtentTestListener.getTest().info("Submitting signup with matching passwords");
         openSignup()
                 .enterEmail(uniqueEmail)
                 .enterPassword("Password123")
@@ -48,9 +51,13 @@ public class SignupTests extends BaseTest {
 
         logger.info("Signup alert title: {}", alert.title());
         logger.info("Signup alert message: {}", alert.message());
+        ExtentTestListener.getTest().info("Signup alert title: '" + alert.title() + "'");
+        ExtentTestListener.getTest().info("Signup alert message: '" + alert.message() + "'");
 
         assertEquals(alert.title(), "Signed Up!");
         assertEquals(alert.message(), "You successfully signed up!");
+
+        ExtentTestListener.getTest().info("Dismissing the signup alert");
         alert.dismiss();
 
          logger.info("Successful signup test completed");
@@ -61,12 +68,14 @@ public class SignupTests extends BaseTest {
         logger.info("Starting invalid email signup test");
 
         String uniqueEmail = "new.user"+ ThreadLocalRandom.current().nextInt(100, 1000);
+        ExtentTestListener.getTest().info("Submitting signup with malformed email '" + uniqueEmail + "'");
         LoginScreen screen = openSignup()
                 .enterEmail(uniqueEmail)
                 .enterPassword("Password123")
                 .enterRepeatPassword("Password123")
                 .submitSignup();
 
+        ExtentTestListener.getTest().info("Verifying the invalid-email validation message is shown");
         assertTrue(screen.invalidEmailMessageShown(),
                 "Expected the 'Please enter a valid email address' validation message");
 
@@ -78,14 +87,18 @@ public class SignupTests extends BaseTest {
         logger.info("Starting mismatched passwords signup test");
 
         String uniqueEmail = "new.user"+ ThreadLocalRandom.current().nextInt(100, 1000)+ "@example.com";
+        ExtentTestListener.getTest().info("Submitting signup with mismatched passwords for '" + uniqueEmail + "'");
         LoginScreen screen = openSignup()
                 .enterEmail(uniqueEmail)
                 .enterPassword("Password123")
                 .enterRepeatPassword("Password999")
                 .submitSignup();
 
+        ExtentTestListener.getTest().info("Verifying the password-mismatch validation message is shown");
         assertTrue(screen.passwordMismatchMessageShown(),
                 "Expected the 'Please enter the same password' validation message");
+
+        ExtentTestListener.getTest().info("Verifying no email validation error is shown");
         assertFalse(screen.invalidEmailMessageShown(),
                 "Email was valid; no email error should appear");
 

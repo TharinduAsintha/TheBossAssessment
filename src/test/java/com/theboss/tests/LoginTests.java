@@ -1,6 +1,7 @@
 package com.theboss.tests;
 
 import com.theboss.base.BaseTest;
+import com.theboss.listeners.ExtentTestListener;
 import com.theboss.pages.AlertDialog;
 import com.theboss.pages.LoginScreen;
 import com.theboss.pages.NavBar;
@@ -35,7 +36,12 @@ public class LoginTests extends BaseTest {
         if (email == null) {
             email = "sample@gmail.com";
             logger.info("No signup email found; using fallback email");
+            ExtentTestListener.getTest().info("No signup email found in TestContext; using fallback '" + email + "'");
+        } else {
+            ExtentTestListener.getTest().info("Using signup email from TestContext: '" + email + "'");
         }
+
+        ExtentTestListener.getTest().info("Submitting login with the provided credentials");
         openLogin()
                 .enterEmail(email)
                 .enterPassword("Password123")
@@ -45,9 +51,13 @@ public class LoginTests extends BaseTest {
 
         logger.info("Success dialog title: {}", alert.title());
         logger.info("Success dialog message: {}", alert.message());
+        ExtentTestListener.getTest().info("Success dialog title: '" + alert.title() + "'");
+        ExtentTestListener.getTest().info("Success dialog message: '" + alert.message() + "'");
 
         assertEquals(alert.title(), "Success");
         assertEquals(alert.message(), "You are logged in!");
+
+        ExtentTestListener.getTest().info("Dismissing the success dialog");
         alert.dismiss();
 
         logger.info("Successful login test completed");
@@ -57,11 +67,13 @@ public class LoginTests extends BaseTest {
     public void invalidEmailIsRejected() {
         logger.info("Starting invalid email validation test");
 
+        ExtentTestListener.getTest().info("Submitting login with malformed email 'not-an-email'");
         LoginScreen screen = openLogin()
                 .enterEmail("not-an-email")
                 .enterPassword("Password123")
                 .submitLogin();
 
+        ExtentTestListener.getTest().info("Verifying the invalid-email validation message is shown");
         assertTrue(screen.invalidEmailMessageShown(),
                 "Expected the 'Please enter a valid email address' validation message");
 
@@ -76,12 +88,18 @@ public class LoginTests extends BaseTest {
         if (email == null) {
             email = "sample@gmail.com";
             logger.info("No signup email found; using fallback email");
+            ExtentTestListener.getTest().info("No signup email found in TestContext; using fallback '" + email + "'");
+        } else {
+            ExtentTestListener.getTest().info("Using signup email from TestContext: '" + email + "'");
         }
+
+        ExtentTestListener.getTest().info("Submitting login with a 5-character password 'short'");
         LoginScreen screen = openLogin()
                 .enterEmail(email)
                 .enterPassword("short")
                 .submitLogin();
 
+        ExtentTestListener.getTest().info("Verifying the short-password validation message is shown");
         assertTrue(screen.shortPasswordMessageShown(),
                 "Expected the 'Please enter at least 8 characters' validation message");
 

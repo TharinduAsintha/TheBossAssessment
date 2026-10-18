@@ -2,6 +2,9 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="WDIO Native Demo App Suite" verbose="1">
     <parameter name="platform" value="android"/>
+     <listeners>
+        <listener class-name="com.theboss.listeners.ExtentTestListener"/>
+    </listeners>
 
     <test name="Sign up">
         <classes>
