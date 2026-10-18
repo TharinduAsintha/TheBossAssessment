@@ -83,12 +83,17 @@ mvn test -Dappium.server.url=http://127.0.0.1:4724
 mvn test -Dtest=LoginTests
 ```
 
+### Run All
+
+```bash
+mvn test
+```
 
 ## What is tested
 
 | Area    | Scenarios                                                                                                   | Expected result                                                             |
 | ------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| Sign up | Valid email + matching passwords                                                                            | Native "Success" dialog with the text *"You successfully signed up!"*       |
+| Sign up | Valid email + matching passwords                                                                            | Native dialog titled *"Signed Up!"* with the text *"You successfully signed up!"* |
 | Sign up | Malformed email                                                                                             | Inline error: *"Please enter a valid email address"*                        |
 | Sign up | Passwords that don't match                                                                                  | Inline error: *"Please enter the same password"*                            |
 | Login   | Valid email + 8+ char password                                                                              | Native "Success" dialog with the text *"You are logged in!"*                |
@@ -96,7 +101,7 @@ mvn test -Dtest=LoginTests
 | Login   | Password shorter than 8 characters                                                                          | Inline error: *"Please enter at least 8 characters"*                        |
 | Forms   | Typed text is echoed in the result label                                                                    | Result label text equals the typed string                                   |
 | Forms   | Switch toggles                                                                                              | Label flips from *"Click to turn the switch ON"* → *"Click to turn the switch OFF"* |
-| Forms   | "Active" button                                                                                             | Native alert with title *"This button is active"*                           |
+| Forms   | "Active" button                                                                                             | Native alert with message *"This button is active"*                         |
 
 Every assertion checks a user-visible string (dialog text, label, inline error)
 rather than internal state — that is what the exercise asks for and what a
@@ -108,7 +113,7 @@ human tester would eyeball.
 
 ```
 ├── apps/
-│   └── android.wdio.native.app.v2.2.0.apk    # app under test (checked in for reproducibility)
+│   └── android.wdio.native.app.v2.2.0.apk    # app under test (downloaded locally — not committed, see Prerequisites)
 ├── pom.xml                                   # Maven build (android profile active by default)
 ├── testng.xml                                # suite: one <test> per screen area
 └── src/
@@ -149,7 +154,6 @@ human tester would eyeball.
   `UiSelector().text(...)`.
 - **Page objects are small on purpose.** Each returns `this` for a fluent
   arrange-act flow in tests, keeping scenarios short and declarative.
-- **The APK is checked into `apps/`** 
 
 ---
 
@@ -177,23 +181,23 @@ human tester would eyeball.
 
 ## Known limitations / honest caveats
 
-- Compile was **not** verified locally (my sandbox doesn't have Maven and
-  blocked downloading the Maven wrapper). The code was reviewed by eye against
-  the Appium Java client 9.x API; if anything doesn't compile for you, please
-  let me know and I'll fix forward quickly.
 - The APK path is resolved relative to `user.dir` (the directory you run
   `mvn` from). Running Maven from a sub-directory will fail with a clear
   "App artefact not found" error pointing at the resolved path.
 - The locators assume the WDIO demo app v2.2.0 exactly. Later releases have
   renamed `button-login-container` → something else; pin the APK version if you
   upgrade.
+- The demo app has no backend — login succeeds for any syntactically valid
+  email + 8+ char password, so the login happy-path test doesn't need a
+  pre-existing signup. Each test runs against a freshly reinstalled app.
 
 ---
 
 ## AI usage disclosure
 
-I used Anthropic's **Claude Code** (Opus 4.7) as a pair-programmer for the
-following, which is the honest extent of the AI's contribution:
+I used Anthropic's **Claude Code** (Opus 4.7) as a pair-programmer. Being
+honest about the extent:
 
 - Scaffolding the Maven / TestNG / Appium project layout from a short brief.
-- Writing this README.
+- Writing this README file
+- Writing this BUGS file

@@ -5,7 +5,6 @@ import com.theboss.listeners.ExtentTestListener;
 import com.theboss.pages.AlertDialog;
 import com.theboss.pages.LoginScreen;
 import com.theboss.pages.NavBar;
-import com.theboss.utils.TestContext;
 
 import org.slf4j.*;
 import org.testng.annotations.Test;
@@ -18,8 +17,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class SignupTests extends BaseTest {
 
-        private static final Logger logger =
-            LoggerFactory.getLogger(FormsTests.class);
+    private static final Logger logger = LoggerFactory.getLogger(SignupTests.class);
 
     /**
      * Navigates to the Login tab and switches to its SIGN UP sub-tab.
@@ -35,7 +33,6 @@ public class SignupTests extends BaseTest {
         logger.info("Starting successful signup test");
 
         String uniqueEmail = "new.user" + ThreadLocalRandom.current().nextInt(100, 1000) + "@example.com";
-        TestContext.setSignupEmail(uniqueEmail);
 
         logger.info("Generated a unique email for signup");
         ExtentTestListener.getTest().info("Generated unique signup email: '" + uniqueEmail + "'");

@@ -38,7 +38,7 @@ public class FormsTests extends BaseTest {
         logger.info("Expected text: '{}', Actual text: '{}'", input, actualText);
         ExtentTestListener.getTest().info("Echoed label value: '" + actualText + "'");
 
-        assertEquals(forms.echoedText(), input,
+        assertEquals(actualText, input,
                 "Echoed label should mirror the typed text");
 
         logger.info("Test passed: typed text is echoed back");

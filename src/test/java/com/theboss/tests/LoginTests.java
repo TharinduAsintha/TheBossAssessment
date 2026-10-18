@@ -5,8 +5,9 @@ import com.theboss.listeners.ExtentTestListener;
 import com.theboss.pages.AlertDialog;
 import com.theboss.pages.LoginScreen;
 import com.theboss.pages.NavBar;
-import com.theboss.utils.TestContext;
 import org.testng.annotations.Test;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -15,8 +16,7 @@ import org.slf4j.*;
 
 public class LoginTests extends BaseTest {
 
-     private static final Logger logger =
-            LoggerFactory.getLogger(FormsTests.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoginTests.class);
 
     /**
      * Navigates to the Login tab and switches to its LOGIN sub-tab.
@@ -32,16 +32,8 @@ public class LoginTests extends BaseTest {
     public void successfulLoginShowsSuccessDialog() {
         logger.info("Starting successful login test");
 
-        String email = TestContext.getSignupEmail();
-        if (email == null) {
-            email = "sample@gmail.com";
-            logger.info("No signup email found; using fallback email");
-            ExtentTestListener.getTest().info("No signup email found in TestContext; using fallback '" + email + "'");
-        } else {
-            ExtentTestListener.getTest().info("Using signup email from TestContext: '" + email + "'");
-        }
-
-        ExtentTestListener.getTest().info("Submitting login with the provided credentials");
+        String email = "user" + ThreadLocalRandom.current().nextInt(100, 1000) + "@example.com";
+        ExtentTestListener.getTest().info("Submitting login as '" + email + "'");
         openLogin()
                 .enterEmail(email)
                 .enterPassword("Password123")
@@ -84,16 +76,8 @@ public class LoginTests extends BaseTest {
     public void shortPasswordIsRejected() {
         logger.info("Starting short password validation test");
 
-        String email = TestContext.getSignupEmail();
-        if (email == null) {
-            email = "sample@gmail.com";
-            logger.info("No signup email found; using fallback email");
-            ExtentTestListener.getTest().info("No signup email found in TestContext; using fallback '" + email + "'");
-        } else {
-            ExtentTestListener.getTest().info("Using signup email from TestContext: '" + email + "'");
-        }
-
-        ExtentTestListener.getTest().info("Submitting login with a 5-character password 'short'");
+        String email = "user" + ThreadLocalRandom.current().nextInt(100, 1000) + "@example.com";
+        ExtentTestListener.getTest().info("Submitting login as '" + email + "' with a 5-character password");
         LoginScreen screen = openLogin()
                 .enterEmail(email)
                 .enterPassword("short")

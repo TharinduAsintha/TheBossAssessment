@@ -2,9 +2,7 @@ package com.theboss.utils;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
-import io.appium.java_client.ios.options.XCUITestOptions;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -49,7 +47,7 @@ public final class DriverFactory {
     public static AppiumDriver create(String platform) {
         try {
             URL serverUrl = new URL(ConfigReader.get("appium.server.url"));
-            String target = platform == null ? "ios" : platform.toLowerCase();
+            String target = platform == null ? "android" : platform.toLowerCase();
 
             return switch (target) {
                 case "android" -> new AndroidDriver(serverUrl, buildAndroidOptions());

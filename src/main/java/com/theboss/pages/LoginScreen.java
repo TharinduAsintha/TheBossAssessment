@@ -2,7 +2,6 @@ package com.theboss.pages;
 
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
-
 import java.time.Duration;
 
 /**
@@ -12,11 +11,8 @@ import java.time.Duration;
  */
 public class LoginScreen extends BasePage {
 
-    private static final By LOGIN_SUBTAB =
-            By.xpath("//android.widget.Button[@content-desc=\"Login\"]");
-
-    private static final By SIGNUP_SUBTAB =
-            By.xpath("//android.widget.TextView[@text=\"Sign up\"]");
+    private static final By LOGIN_SUBTAB = accessibility("button-login-container");
+    private static final By SIGNUP_SUBTAB = accessibility("button-sign-up-container");
 
     private static final By EMAIL_INPUT = accessibility("input-email");
     private static final By PASSWORD_INPUT = accessibility("input-password");
